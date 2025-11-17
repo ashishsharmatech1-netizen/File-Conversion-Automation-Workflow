@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2022.1">
+  <Nodes>
+    <Node ToolID="7">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Directory.Directory">
+        <Position x="78" y="30" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Directory>D:\Excel_Files</Directory>
+          <FileSpec>*.*</FileSpec>
+          <IncludeSubDirs value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>dir D:\Excel_Files\*.*</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="FullPath" size="32767" type="V_WString" />
+            <Field name="Directory" size="32767" type="V_WString" />
+            <Field name="FileName" size="260" type="V_WString" />
+            <Field name="ShortFileName" size="14" type="V_WString" />
+            <Field name="CreationTime" type="DateTime" />
+            <Field name="LastAccessTime" type="DateTime" />
+            <Field name="LastWriteTime" type="DateTime" />
+            <Field name="Size" type="Int64" />
+            <Field name="AttributeArchive" type="Bool" />
+            <Field name="AttributeCompressed" type="Bool" />
+            <Field name="AttributeEncrypted" type="Bool" />
+            <Field name="AttributeHidden" type="Bool" />
+            <Field name="AttributeNormal" type="Bool" />
+            <Field name="AttributeOffline" type="Bool" />
+            <Field name="AttributeReadonly" type="Bool" />
+            <Field name="AttributeReparsePoint" type="Bool" />
+            <Field name="AttributeSparseFile" type="Bool" />
+            <Field name="AttributeSystem" type="Bool" />
+            <Field name="AttributeTemporary" type="Bool" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDirectory" />
+    </Node>
+    <Node ToolID="14">
+      <GuiSettings Plugin="JupyterCode">
+        <Position x="234" y="126" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <WorkflowName>d:\alteryx\[unnamed module]</WorkflowName>
+          <JupyterProduction>false</JupyterProduction>
+          <vEnvName>designerbasetools_venv</vEnvName>
+          <DefaultVenv>1</DefaultVenv>
+          <productionModeScript />
+          <Port>54425</Port>
+          <JupyterGuidDir>ffb62d034890b66ae9249dc9ef54d8a2</JupyterGuidDir>
+          <JupyterGuidCopy />
+          <LastExecutedByEngineVersion>2022.1.1.25127</LastExecutedByEngineVersion>
+          <Notebook><![CDATA[{"cells":[{"cell_type":"markdown","metadata":{"ayx":{"cell_class":"text_cell","cell_css":"border: 3px solid #357; margin: 4px; background: #fbffff","cell_type":"markdown","contents_keyword":"Alteryx.help()","first_line":"Run `Alteryx.help()` for info about useful functions.","label":"info"}},"source":["Run `Alteryx.help()` for info about useful functions.  \n","i.e., `Alteryx.read(\"#1\")`, `Alteryx.write(df,1)`, `Alteryx.getWorkflowConstant(\"Engine.WorkflowDirectory\")`"]},{"cell_type":"code","execution_count":1,"metadata":{"ayx":{"cell_class":"code_cell","cell_css":"border: 1px solid #58a; margin: 2px;","cell_type":"code","contents_keyword":"installPackages","first_line":"# List all non-standard packages to be imported by your","label":"deps"}},"outputs":[],"source":["import os\n","import win32com.client as win32\n","\n","excel_folder = r\"D:\\Excel_Files\"\n","output_folder = r\"D:\\Excel_PDFs\"\n","\n","# Create output folder if not exists\n","if not os.path.exists(output_folder):\n","    os.makedirs(output_folder)\n","\n","# Launch Excel\n","excel = win32.Dispatch('Excel.Application')\n","excel.Visible = False\n","excel.DisplayAlerts = False\n","\n","# Loop all files\n","for file in os.listdir(excel_folder):\n","    if file.endswith(\".xlsx\") or file.endswith(\".xls\"):\n","        excel_path = os.path.join(excel_folder, file)\n","        \n","        # PDF name\n","        pdf_path = os.path.join(\n","            output_folder,\n","            os.path.splitext(file)[0] + \".pdf\"\n","        )\n","\n","        # Open workbook\n","        wb = excel.Workbooks.Open(excel_path)\n","\n","        # Export the entire workbook to PDF\n","        wb.ExportAsFixedFormat(0, pdf_path)\n","\n","        wb.Close()\n","\n","excel.Quit()\n","\n","# Output message\n","print(\"PDF conversion completed for all Excel files!\")\n"]},{"cell_type":"code","execution_count":2,"metadata":{},"outputs":[],"source":["from ayx import Alteryx\n","\n"]}],"metadata":{"kernelspec":{"display_name":"designerbasetools_venv","language":"python","name":"designerbasetools_venv"},"language_info":{"codemirror_mode":{"name":"ipython","version":3},"file_extension":".py","mimetype":"text/x-python","name":"python","nbconvert_exporter":"python","pygments_lexer":"ipython3","version":"3.8.5"}},"nbformat":4,"nbformat_minor":2}]]></Notebook>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxJupyterPluginEngine.dll" EngineDllEntryPoint="AlteryxJupyter" />
+    </Node>
+    <Node ToolID="16">
+      <GuiSettings Plugin="AlteryxGuiToolkit.Questions.Tab.Tab">
+        <Position x="0" y="0" width="59" height="59" />
+      </GuiSettings>
+      <Properties>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection name="#1">
+      <Origin ToolID="7" Connection="Output" />
+      <Destination ToolID="14" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>exceltopdf-1</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="07450e7c-9c52-49de-bad8-d3fc51a939bb" />
+      <Telemetry>
+        <PreviousWorkflowId value="7dacbdd2-b5a0-4ef1-8372-b6feda0af85a" />
+        <OriginWorkflowId value="2e5a8ad9-d1c1-40b2-a73d-cac82d05bfc0" />
+      </Telemetry>
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+    <RuntimeProperties>
+      <Actions />
+      <Questions>
+        <Question>
+          <Type>Tab</Type>
+          <Description>Questions</Description>
+          <Name>Tab (16)</Name>
+          <ToolId value="16" />
+          <Questions />
+        </Question>
+      </Questions>
+      <ModuleType>Wizard</ModuleType>
+      <MacroCustomHelp value="False" />
+      <MacroDynamicOutputFields value="False" />
+      <MacroImageStd value="0" />
+      <MacroInputs />
+      <MacroOutputs />
+      <Wiz_CustomHelp value="False" />
+      <Wiz_CustomGraphic value="False" />
+      <Wiz_ShowOutput value="True" />
+      <Wiz_OpenOutputTools />
+      <Wiz_OutputMessage />
+      <Wiz_NoOutputFilesMessage />
+      <Wiz_ChainRunWizard />
+    </RuntimeProperties>
+  </Properties>
+</AlteryxDocument>
